@@ -201,7 +201,7 @@
       <script src="javascripts/all_nosearch.js"></script>
   </head>
 
-  <body class="index" data-languages="[&quot;python&quot;,&quot;javascript&quot;,&quot;java&quot;,&quot;ruby&quot;,&quot;curl&quot;]">
+  <body class="index" data-languages="[&quot;javascript&quot;,&quot;python&quot;,&quot;java&quot;,&quot;ruby&quot;,&quot;c&quot;]">
     <a href="#" id="nav-button">
       <span>
         NAV
@@ -211,68 +211,71 @@
     <div class="toc-wrapper">
       <img src="images/logo.png" class="logo" alt="Logo" />
         <div class="lang-selector">
-              <a href="#" data-language-name="python">python</a>
               <a href="#" data-language-name="javascript">javascript</a>
+              <a href="#" data-language-name="python">python</a>
               <a href="#" data-language-name="java">java</a>
               <a href="#" data-language-name="ruby">ruby</a>
-              <a href="#" data-language-name="curl">curl</a>
+              <a href="#" data-language-name="c">c</a>
         </div>
       <ul id="toc" class="toc-list-h1">
           <li>
             <a href="#introduction" class="toc-h1 toc-link" data-title="Introduction">Introduction</a>
           </li>
           <li>
+            <a href="#flow-of-transaction" class="toc-h1 toc-link" data-title="Flow of Transaction">Flow of Transaction</a>
+          </li>
+          <li>
             <a href="#code" class="toc-h1 toc-link" data-title="Code">Code</a>
+              <ul class="toc-list-h2">
+                  <li>
+                    <a href="#example-code" class="toc-h2 toc-link" data-title="Example Code">Example Code</a>
+                  </li>
+                  <li>
+                    <a href="#explanation-by-parts" class="toc-h2 toc-link" data-title="Explanation by Parts">Explanation by Parts</a>
+                  </li>
+                  <li>
+                    <a href="#possible-errors" class="toc-h2 toc-link" data-title="Possible Errors">Possible Errors</a>
+                  </li>
+              </ul>
           </li>
       </ul>
-        <ul class="toc-footer">
-            <li><a href='https://github.com/lord/slate'>Documentation Powered by Slate</a></li>
-        </ul>
     </div>
     <div class="page-wrapper">
       <div class="dark-box"></div>
       <div class="content">
         <h1 id='introduction'>Introduction</h1>
 <p>Welcome to the Mahnee API! You can use our API to access Mahnee API endpoints, which would let users pay using Mahnee and making transaction of points from merchant to user easier.</p>
+<h1 id='flow-of-transaction'>Flow of Transaction</h1>
+<p>By implementing this API, you, as merchant, will have the opportunity to implement payment using Mahnee for your customers of your online merchant shop.</p>
+
+<p>When customers opt for paying by Mahnee, they will be prompt to fill in their email (used for Mahnee account). After the transaction is done, the points </p>
+
+<p>(NOTE: it is up to you, the merchant, to make sure that the customer is a registered Mahnee User)</p>
 <h1 id='code'>Code</h1>
 <p>We have language bindings in python, javascript, java, ruby, and curl! You can view code examples in the dark area to the right, and you can switch the programming language of the examples with the tabs in the top right.</p>
-<pre class="highlight python tab-python"><code><span class="err">$</span><span class="n">http</span><span class="o">.</span><span class="n">defaults</span><span class="o">.</span><span class="n">headers</span><span class="o">.</span><span class="n">post</span><span class="p">[</span><span class="s">'Content-Type'</span><span class="p">]</span> <span class="o">=</span> <span class="s">'application/x-www-form-urlencoded;charset=utf-8'</span><span class="p">;</span>
-<span class="err">$</span><span class="n">http</span><span class="o">.</span><span class="n">default</span><span class="o">.</span><span class="n">headers</span><span class="o">.</span><span class="n">post</span><span class="p">[</span><span class="s">"Authorization"</span><span class="p">]</span> <span class="o">=</span> <span class="s">"your_special_id"</span><span class="p">;</span>
-<span class="err">$</span><span class="n">http</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="s">"https://join.mahnee.com/api/getAuth"</span><span class="p">,</span> <span class="err">$</span><span class="o">.</span><span class="n">param</span><span class="p">({</span>
-  <span class="s">"username"</span> <span class="p">:</span> <span class="s">"yourusername@gmail.com"</span><span class="p">,</span>
-  <span class="s">"password"</span> <span class="p">:</span> <span class="s">"password"</span><span class="p">,</span>
-  <span class="s">"company_code"</span> <span class="p">:</span> <span class="mi">3</span>
-<span class="p">}))</span><span class="o">.</span><span class="n">then</span><span class="p">(</span><span class="n">function</span><span class="p">(</span><span class="n">result</span><span class="p">){</span>
-  <span class="k">if</span><span class="p">(</span><span class="n">result</span><span class="p">[</span><span class="s">'status'</span><span class="p">]</span> <span class="o">==</span> <span class="s">'success'</span><span class="p">){</span>
-      <span class="err">$</span><span class="n">http</span><span class="o">.</span><span class="n">defaults</span><span class="o">.</span><span class="n">headers</span><span class="o">.</span><span class="n">post</span><span class="p">[</span><span class="s">"Authorization"</span><span class="p">]</span> <span class="o">=</span> <span class="n">result</span><span class="p">[</span><span class="s">'hash'</span><span class="p">];</span>
-      <span class="err">$</span><span class="n">http</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="s">"https://join.mahnee.com/api/givePoint"</span><span class="p">,</span> <span class="err">$</span><span class="o">.</span><span class="n">param</span><span class="p">({</span>
-      <span class="s">"username"</span> <span class="p">:</span> <span class="s">"yourusername@gmail.com"</span><span class="p">,</span>
-      <span class="s">"password"</span> <span class="p">:</span> <span class="s">"password"</span><span class="p">,</span>
-      <span class="s">"company_code"</span> <span class="p">:</span> <span class="mi">3</span><span class="p">,</span>
-      <span class="s">"receiver_email"</span> <span class="p">:</span> <span class="s">"people_youwant_give_point_to@gmail.com"</span><span class="p">,</span>
-      <span class="s">"type"</span> <span class="p">:</span> <span class="s">"big"</span><span class="p">,</span>
-      <span class="s">"point_original"</span> <span class="p">:</span> <span class="s">"109.99"</span>
-      <span class="p">}))</span><span class="o">.</span><span class="n">then</span><span class="p">(</span><span class="n">function</span><span class="p">(</span><span class="n">result</span><span class="p">){</span>
-        <span class="k">if</span><span class="p">(</span><span class="n">result</span><span class="p">[</span><span class="s">'status'</span><span class="p">]</span> <span class="o">==</span> <span class="s">'success'</span><span class="p">){</span>
+<h2 id='example-code'>Example Code</h2>
+<p>Copy the example code at the side and replace the following variables as follows:</p>
 
-        <span class="p">}</span> <span class="k">else</span> <span class="k">if</span><span class="p">(</span><span class="n">result</span><span class="p">[</span><span class="s">'status'</span><span class="p">]</span> <span class="o">==</span> <span class="s">'fail'</span><span class="p">){</span>
-          <span class="o">//</span> <span class="n">insufficient_balance</span>
-          <span class="o">//</span> <span class="n">expired_auth</span>
-          <span class="o">//</span> <span class="n">invalid_auth</span>
-          <span class="o">//</span> <span class="n">invalid_owner</span>
-          <span class="o">//</span> <span class="n">invalid_password</span>
-          <span class="o">//</span> <span class="n">invalid_username</span>
-        <span class="p">}</span>
-      <span class="p">});</span>
-  <span class="p">}</span> <span class="k">else</span> <span class="k">if</span><span class="p">(</span><span class="n">result</span><span class="p">[</span><span class="s">'status'</span><span class="p">]</span> <span class="o">==</span> <span class="s">'fail'</span><span class="p">){</span>
-    <span class="o">//</span> <span class="n">invalid_username</span>
-    <span class="o">//</span> <span class="n">invalid_password</span>
-    <span class="o">//</span> <span class="n">invalid_owner</span>
-    <span class="o">//</span> <span class="n">invalid_auth</span>
-    <span class="o">//</span> <span class="n">expired_auth</span>
-  <span class="p">}</span>
-<span class="p">});</span>
-</code></pre><pre class="highlight javascript tab-javascript"><code><span class="nx">$http</span><span class="p">.</span><span class="nx">defaults</span><span class="p">.</span><span class="nx">headers</span><span class="p">.</span><span class="nx">post</span><span class="p">[</span><span class="s1">'Content-Type'</span><span class="p">]</span> <span class="o">=</span> <span class="s1">'application/x-www-form-urlencoded;charset=utf-8'</span><span class="p">;</span>
+<table><thead>
+<tr>
+<th>Variable</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>your_special_id</td>
+<td>your special id received by Mahnee</td>
+</tr>
+<tr>
+<td>yourusername@gmail.com</td>
+<td>your username used for Mahnee business account</td>
+</tr>
+<tr>
+<td>password</td>
+<td>your password for your Mahnee business account</td>
+</tr>
+</tbody></table>
+<pre class="highlight javascript tab-javascript"><code><span class="nx">$http</span><span class="p">.</span><span class="nx">defaults</span><span class="p">.</span><span class="nx">headers</span><span class="p">.</span><span class="nx">post</span><span class="p">[</span><span class="s1">'Content-Type'</span><span class="p">]</span> <span class="o">=</span> <span class="s1">'application/x-www-form-urlencoded;charset=utf-8'</span><span class="p">;</span>
 <span class="nx">$http</span><span class="p">.</span><span class="k">default</span><span class="p">.</span><span class="nx">headers</span><span class="p">.</span><span class="nx">post</span><span class="p">[</span><span class="s2">"Authorization"</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"your_special_id"</span><span class="p">;</span>
 <span class="nx">$http</span><span class="p">.</span><span class="nx">post</span><span class="p">(</span><span class="s2">"https://join.mahnee.com/api/getAuth"</span><span class="p">,</span> <span class="nx">$</span><span class="p">.</span><span class="nx">param</span><span class="p">({</span>
   <span class="s2">"username"</span> <span class="p">:</span> <span class="s2">"yourusername@gmail.com"</span><span class="p">,</span>
@@ -306,6 +309,42 @@
     <span class="c1">// invalid_owner</span>
     <span class="c1">// invalid_auth</span>
     <span class="c1">// expired_auth</span>
+  <span class="p">}</span>
+<span class="p">});</span>
+</code></pre><pre class="highlight python tab-python"><code><span class="err">$</span><span class="n">http</span><span class="o">.</span><span class="n">defaults</span><span class="o">.</span><span class="n">headers</span><span class="o">.</span><span class="n">post</span><span class="p">[</span><span class="s">'Content-Type'</span><span class="p">]</span> <span class="o">=</span> <span class="s">'application/x-www-form-urlencoded;charset=utf-8'</span><span class="p">;</span>
+<span class="err">$</span><span class="n">http</span><span class="o">.</span><span class="n">default</span><span class="o">.</span><span class="n">headers</span><span class="o">.</span><span class="n">post</span><span class="p">[</span><span class="s">"Authorization"</span><span class="p">]</span> <span class="o">=</span> <span class="s">"your_special_id"</span><span class="p">;</span>
+<span class="err">$</span><span class="n">http</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="s">"https://join.mahnee.com/api/getAuth"</span><span class="p">,</span> <span class="err">$</span><span class="o">.</span><span class="n">param</span><span class="p">({</span>
+  <span class="s">"username"</span> <span class="p">:</span> <span class="s">"yourusername@gmail.com"</span><span class="p">,</span>
+  <span class="s">"password"</span> <span class="p">:</span> <span class="s">"password"</span><span class="p">,</span>
+  <span class="s">"company_code"</span> <span class="p">:</span> <span class="mi">3</span>
+<span class="p">}))</span><span class="o">.</span><span class="n">then</span><span class="p">(</span><span class="n">function</span><span class="p">(</span><span class="n">result</span><span class="p">){</span>
+  <span class="k">if</span><span class="p">(</span><span class="n">result</span><span class="p">[</span><span class="s">'status'</span><span class="p">]</span> <span class="o">==</span> <span class="s">'success'</span><span class="p">){</span>
+      <span class="err">$</span><span class="n">http</span><span class="o">.</span><span class="n">defaults</span><span class="o">.</span><span class="n">headers</span><span class="o">.</span><span class="n">post</span><span class="p">[</span><span class="s">"Authorization"</span><span class="p">]</span> <span class="o">=</span> <span class="n">result</span><span class="p">[</span><span class="s">'hash'</span><span class="p">];</span>
+      <span class="err">$</span><span class="n">http</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="s">"https://join.mahnee.com/api/givePoint"</span><span class="p">,</span> <span class="err">$</span><span class="o">.</span><span class="n">param</span><span class="p">({</span>
+      <span class="s">"username"</span> <span class="p">:</span> <span class="s">"yourusername@gmail.com"</span><span class="p">,</span>
+      <span class="s">"password"</span> <span class="p">:</span> <span class="s">"password"</span><span class="p">,</span>
+      <span class="s">"company_code"</span> <span class="p">:</span> <span class="mi">3</span><span class="p">,</span>
+      <span class="s">"receiver_email"</span> <span class="p">:</span> <span class="s">"people_youwant_give_point_to@gmail.com"</span><span class="p">,</span>
+      <span class="s">"type"</span> <span class="p">:</span> <span class="s">"big"</span><span class="p">,</span>
+      <span class="s">"point_original"</span> <span class="p">:</span> <span class="s">"109.99"</span>
+      <span class="p">}))</span><span class="o">.</span><span class="n">then</span><span class="p">(</span><span class="n">function</span><span class="p">(</span><span class="n">result</span><span class="p">){</span>
+        <span class="k">if</span><span class="p">(</span><span class="n">result</span><span class="p">[</span><span class="s">'status'</span><span class="p">]</span> <span class="o">==</span> <span class="s">'success'</span><span class="p">){</span>
+
+        <span class="p">}</span> <span class="k">else</span> <span class="k">if</span><span class="p">(</span><span class="n">result</span><span class="p">[</span><span class="s">'status'</span><span class="p">]</span> <span class="o">==</span> <span class="s">'fail'</span><span class="p">){</span>
+          <span class="o">//</span> <span class="n">insufficient_balance</span>
+          <span class="o">//</span> <span class="n">expired_auth</span>
+          <span class="o">//</span> <span class="n">invalid_auth</span>
+          <span class="o">//</span> <span class="n">invalid_owner</span>
+          <span class="o">//</span> <span class="n">invalid_password</span>
+          <span class="o">//</span> <span class="n">invalid_username</span>
+        <span class="p">}</span>
+      <span class="p">});</span>
+  <span class="p">}</span> <span class="k">else</span> <span class="k">if</span><span class="p">(</span><span class="n">result</span><span class="p">[</span><span class="s">'status'</span><span class="p">]</span> <span class="o">==</span> <span class="s">'fail'</span><span class="p">){</span>
+    <span class="o">//</span> <span class="n">invalid_username</span>
+    <span class="o">//</span> <span class="n">invalid_password</span>
+    <span class="o">//</span> <span class="n">invalid_owner</span>
+    <span class="o">//</span> <span class="n">invalid_auth</span>
+    <span class="o">//</span> <span class="n">expired_auth</span>
   <span class="p">}</span>
 <span class="p">});</span>
 </code></pre><pre class="highlight java tab-java"><code><span class="n">$http</span><span class="o">.</span><span class="na">defaults</span><span class="o">.</span><span class="na">headers</span><span class="o">.</span><span class="na">post</span><span class="o">[</span><span class="err">'</span><span class="n">Content</span><span class="o">-</span><span class="n">Type</span><span class="err">'</span><span class="o">]</span> <span class="o">=</span> <span class="err">'</span><span class="n">application</span><span class="o">/</span><span class="n">x</span><span class="o">-</span><span class="n">www</span><span class="o">-</span><span class="n">form</span><span class="o">-</span><span class="n">urlencoded</span><span class="o">;</span><span class="n">charset</span><span class="o">=</span><span class="n">utf</span><span class="o">-</span><span class="mi">8</span><span class="err">'</span><span class="o">;</span>
@@ -380,51 +419,70 @@
     <span class="sr">//</span> <span class="n">expired_auth</span>
   <span class="p">}</span>
 <span class="p">});</span>
-</code></pre><pre class="highlight plaintext"><code>$http.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded;charset=utf-8';
-$http.default.headers.post["Authorization"] = "your_special_id";
-$http.post("https://join.mahnee.com/api/getAuth", $.param({
-  "username" : "yourusername@gmail.com",
-  "password" : "password",
-  "company_code" : 3
-})).then(function(result){
-  if(result['status'] == 'success'){
-      $http.defaults.headers.post["Authorization"] = result['hash'];
-      $http.post("https://join.mahnee.com/api/givePoint", $.param({
-      "username" : "yourusername@gmail.com",
-      "password" : "password",
-      "company_code" : 3,
-      "receiver_email" : "people_youwant_give_point_to@gmail.com",
-      "type" : "big",
-      "point_original" : "109.99"
-      })).then(function(result){
-        if(result['status'] == 'success'){
+</code></pre><pre class="highlight c tab-c"><code><span class="err">$</span><span class="n">http</span><span class="p">.</span><span class="n">defaults</span><span class="p">.</span><span class="n">headers</span><span class="p">.</span><span class="n">post</span><span class="p">[</span><span class="err">'</span><span class="n">Content</span><span class="o">-</span><span class="n">Type</span><span class="err">'</span><span class="p">]</span> <span class="o">=</span> <span class="err">'</span><span class="n">application</span><span class="o">/</span><span class="n">x</span><span class="o">-</span><span class="n">www</span><span class="o">-</span><span class="n">form</span><span class="o">-</span><span class="n">urlencoded</span><span class="p">;</span><span class="n">charset</span><span class="o">=</span><span class="n">utf</span><span class="o">-</span><span class="mi">8</span><span class="err">'</span><span class="p">;</span>
+<span class="err">$</span><span class="n">http</span><span class="p">.</span><span class="k">default</span><span class="p">.</span><span class="n">headers</span><span class="p">.</span><span class="n">post</span><span class="p">[</span><span class="s">"Authorization"</span><span class="p">]</span> <span class="o">=</span> <span class="s">"your_special_id"</span><span class="p">;</span>
+<span class="err">$</span><span class="n">http</span><span class="p">.</span><span class="n">post</span><span class="p">(</span><span class="s">"https://join.mahnee.com/api/getAuth"</span><span class="p">,</span> <span class="err">$</span><span class="p">.</span><span class="n">param</span><span class="p">({</span>
+  <span class="s">"username"</span> <span class="o">:</span> <span class="s">"yourusername@gmail.com"</span><span class="p">,</span>
+  <span class="s">"password"</span> <span class="o">:</span> <span class="s">"password"</span><span class="p">,</span>
+  <span class="s">"company_code"</span> <span class="o">:</span> <span class="mi">3</span>
+<span class="p">})).</span><span class="n">then</span><span class="p">(</span><span class="n">function</span><span class="p">(</span><span class="n">result</span><span class="p">){</span>
+  <span class="k">if</span><span class="p">(</span><span class="n">result</span><span class="p">[</span><span class="err">'</span><span class="n">status</span><span class="err">'</span><span class="p">]</span> <span class="o">==</span> <span class="err">'</span><span class="n">success</span><span class="err">'</span><span class="p">){</span>
+      <span class="err">$</span><span class="n">http</span><span class="p">.</span><span class="n">defaults</span><span class="p">.</span><span class="n">headers</span><span class="p">.</span><span class="n">post</span><span class="p">[</span><span class="s">"Authorization"</span><span class="p">]</span> <span class="o">=</span> <span class="n">result</span><span class="p">[</span><span class="err">'</span><span class="n">hash</span><span class="err">'</span><span class="p">];</span>
+      <span class="err">$</span><span class="n">http</span><span class="p">.</span><span class="n">post</span><span class="p">(</span><span class="s">"https://join.mahnee.com/api/givePoint"</span><span class="p">,</span> <span class="err">$</span><span class="p">.</span><span class="n">param</span><span class="p">({</span>
+      <span class="s">"username"</span> <span class="o">:</span> <span class="s">"yourusername@gmail.com"</span><span class="p">,</span>
+      <span class="s">"password"</span> <span class="o">:</span> <span class="s">"password"</span><span class="p">,</span>
+      <span class="s">"company_code"</span> <span class="o">:</span> <span class="mi">3</span><span class="p">,</span>
+      <span class="s">"receiver_email"</span> <span class="o">:</span> <span class="s">"people_youwant_give_point_to@gmail.com"</span><span class="p">,</span>
+      <span class="s">"type"</span> <span class="o">:</span> <span class="s">"big"</span><span class="p">,</span>
+      <span class="s">"point_original"</span> <span class="o">:</span> <span class="s">"109.99"</span>
+      <span class="p">})).</span><span class="n">then</span><span class="p">(</span><span class="n">function</span><span class="p">(</span><span class="n">result</span><span class="p">){</span>
+        <span class="k">if</span><span class="p">(</span><span class="n">result</span><span class="p">[</span><span class="err">'</span><span class="n">status</span><span class="err">'</span><span class="p">]</span> <span class="o">==</span> <span class="err">'</span><span class="n">success</span><span class="err">'</span><span class="p">){</span>
 
-        } else if(result['status'] == 'fail'){
-          // insufficient_balance
-          // expired_auth
-          // invalid_auth
-          // invalid_owner
-          // invalid_password
-          // invalid_username
-        }
-      });
-  } else if(result['status'] == 'fail'){
-    // invalid_username
-    // invalid_password
-    // invalid_owner
-    // invalid_auth
-    // expired_auth
-  }
-});
-</code></pre>
+        <span class="p">}</span> <span class="k">else</span> <span class="k">if</span><span class="p">(</span><span class="n">result</span><span class="p">[</span><span class="err">'</span><span class="n">status</span><span class="err">'</span><span class="p">]</span> <span class="o">==</span> <span class="err">'</span><span class="n">fail</span><span class="err">'</span><span class="p">){</span>
+          <span class="c1">// insufficient_balance
+</span>          <span class="c1">// expired_auth
+</span>          <span class="c1">// invalid_auth
+</span>          <span class="c1">// invalid_owner
+</span>          <span class="c1">// invalid_password
+</span>          <span class="c1">// invalid_username
+</span>        <span class="p">}</span>
+      <span class="p">});</span>
+  <span class="p">}</span> <span class="k">else</span> <span class="k">if</span><span class="p">(</span><span class="n">result</span><span class="p">[</span><span class="err">'</span><span class="n">status</span><span class="err">'</span><span class="p">]</span> <span class="o">==</span> <span class="err">'</span><span class="n">fail</span><span class="err">'</span><span class="p">){</span>
+    <span class="c1">// invalid_username
+</span>    <span class="c1">// invalid_password
+</span>    <span class="c1">// invalid_owner
+</span>    <span class="c1">// invalid_auth
+</span>    <span class="c1">// expired_auth
+</span>  <span class="p">}</span>
+<span class="p">});</span>
+</code></pre><h2 id='explanation-by-parts'>Explanation by Parts</h2><h2 id='possible-errors'>Possible Errors</h2>
+<p>Below are the errors that might arise in </p>
+<h3 id='error-1'>Error 1</h3>
+<ol>
+<li>insufficient_balance</li>
+<li>expired_auth</li>
+<li>invalid_auth</li>
+<li>invalid_owner</li>
+<li>invalid_password</li>
+<li>invalid_username</li>
+</ol>
+<h3 id='error-2'>Error 2</h3>
+<ol>
+<li>invalid_username</li>
+<li>invalid_password</li>
+<li>invalid_owner</li>
+<li>invalid_auth</li>
+<li>expired_auth</li>
+</ol>
+
       </div>
       <div class="dark-box">
           <div class="lang-selector">
-                <a href="#" data-language-name="python">python</a>
                 <a href="#" data-language-name="javascript">javascript</a>
+                <a href="#" data-language-name="python">python</a>
                 <a href="#" data-language-name="java">java</a>
                 <a href="#" data-language-name="ruby">ruby</a>
-                <a href="#" data-language-name="curl">curl</a>
+                <a href="#" data-language-name="c">c</a>
           </div>
       </div>
     </div>
